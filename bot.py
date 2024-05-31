@@ -12,5 +12,7 @@ bot.load_extension("cogs.boss")
 bot.load_extension("cogs.viewrace")
 bot.load_extension("cogs.challange")
 bot.load_extension("cogs.ct")
+bot.load_extension("cogs.ctId")
+bot.load_extension("cogs.leaderboard")
 
 bot.run("")
