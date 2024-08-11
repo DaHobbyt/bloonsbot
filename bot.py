@@ -1,18 +1,26 @@
 import discord
 from discord.ext import commands
+import os
+from dotenv import load_dotenv
 
-bot = commands.Bot(command_prefix="/", intents=discord.Intents.default())
+load_dotenv()
 
-@bot.event
-async def on_ready():
-    print(f"Logged in as {bot.user.name}")
+class Bot(commands.Bot):
+    def __init__(self, *args, **kwargs):
 
-bot.load_extension("cogs.race")
-bot.load_extension("cogs.boss")
-bot.load_extension("cogs.viewrace")
-bot.load_extension("cogs.challange")
-bot.load_extension("cogs.ct")
-bot.load_extension("cogs.ctId")
-bot.load_extension("cogs.leaderboard")
+        super().__init__(*args, **kwargs)
+        self.command_prefix = "!"
 
-bot.run("")
+        for filename in os.listdir("cogs"):
+            if filename.endswith(".py"):
+                self.load_extension(f"cogs.{filename[:-3]}")
+
+    async def on_ready(self):
+        print(f"Logged in as {self.user.name}")
+
+    def run(self):
+        super().run(os.getenv("TOKEN"))
+        
+
+bot = commands.Bot(intents=discord.Intents.default())
+bot.run()

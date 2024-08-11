@@ -1,13 +1,15 @@
 import discord
 from discord.ext import commands
 import aiohttp
-import json
 
 class Race(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.slash_command(name="race", description="Get race data")
+    @commands.slash_command(
+        name="race",
+        description="Get race data"
+    )
     async def race(self, ctx):
         async with aiohttp.ClientSession() as session:
             async with session.get("https://data.ninjakiwi.com/btd6/races") as response:
